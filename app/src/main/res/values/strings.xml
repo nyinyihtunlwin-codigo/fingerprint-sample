@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Fingerprint Sample</string>
+    <string name="action_settings">Settings</string>
+    <string name="touch_sensor">Touch sensor.</string>
+    <string name="fingerprint_recognized">Fingerprint recognized.</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again.</string>
+    <string name="cancel">Cancel</string>
+    <string name="touch_id_for_kbz_mbanking">Touch ID for \"KBZ mBanking\"</string>
+    <string name="authenticate">Authenticate using your finger.</string>
+</resources>
