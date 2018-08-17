@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
@@ -34,35 +35,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void showFingerprintAuth() {
-        FingerprintDialog dialog = FingerprintDialog.newInstance(
-                "Sign In",
-                getResources().getString(R.string.authenticate)
-        );
+        FingerprintDialog dialog = FingerprintDialog.newInstance();
         dialog.show(getSupportFragmentManager(), FingerprintDialog.FRAGMENT_TAG);
-    }
+        dialog.setListener(new FingerprintDialog.FDCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+            }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+            @Override
+            public void onCancelClicked() {
+                Toast.makeText(getApplicationContext(),"Canceled",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

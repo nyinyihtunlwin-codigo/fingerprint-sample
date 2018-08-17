@@ -38,9 +38,6 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
 
 
     public static final String FRAGMENT_TAG = FingerprintDialog.class.getSimpleName();
-    // Bundle keys for each of the arguments of the newInstance method.
-    private static final String ARG_TITLE = "ArgTitle";
-    private static final String ARG_SUBTITLE = "ArgSubtitle";
     private static final String DEFAULT_KEY_NAME = "default_key";
 
     @BindView(R.id.tv_title)
@@ -60,11 +57,10 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
     private KeyGenerator keyGenerator = null;
     private FingerprintController mFingerprintController = null;
 
-    public static FingerprintDialog newInstance(String title, String subTitle) {
+    private FDCallback mFDCallback;
 
+    public static FingerprintDialog newInstance() {
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
-        args.putString(ARG_SUBTITLE, subTitle);
         FingerprintDialog fragment = new FingerprintDialog();
         fragment.setArguments(args);
         return fragment;
@@ -85,21 +81,19 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
                 FingerprintManagerCompat.from(getContext()),
                 this,
                 tvTitle,
-                tvSubTitle,
-                tvTitle,
                 ivFingerPrint
         );
-        mFingerprintController.setTitle(getArguments().getString(ARG_TITLE));
-        mFingerprintController.setSubtitle(getArguments().getString(ARG_SUBTITLE));
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFDCallback.onCancelClicked();
                 dismiss();
             }
         });
         setCancelable(false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,7 +183,7 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
         try {
             keyStore.load(null);
             KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(keyName,
-                    KeyProperties.PURPOSE_ENCRYPT)
+                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7);
@@ -210,13 +204,24 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
 
     }
 
+    public void setListener(FDCallback fdCallback) {
+        this.mFDCallback = fdCallback;
+    }
+
     @Override
     public void onAuthenticated() {
-
+        mFDCallback.onSuccess();
+        dismiss();
     }
 
     @Override
     public void onError() {
-        dismiss();
+
+    }
+
+    interface FDCallback {
+        void onSuccess();
+
+        void onCancelClicked();
     }
 }

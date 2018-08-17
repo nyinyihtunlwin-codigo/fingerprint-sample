@@ -12,12 +12,12 @@ public class FingerprintController extends FingerprintManagerCompat.Authenticati
 
 
     private static final long ERROR_TIMEOUT_MILLIS = 1600L;
-    private static final long SUCCESS_DELAY_MILLIS = 1300L;
+    private static final long SUCCESS_DELAY_MILLIS = 500L;
 
     private FingerprintManagerCompat mFingerprintManagerCompat;
     private Callback mCallback;
 
-    private TextView tvTitle, tvSubtitle, tvError;
+    private TextView tvError;
     private ImageView ivIcon;
 
     private CancellationSignal cancellationSignal = null;
@@ -37,20 +37,16 @@ public class FingerprintController extends FingerprintManagerCompat.Authenticati
 
     public FingerprintController(FingerprintManagerCompat fingerprintManagerCompat,
                                  Callback callback,
-                                 TextView tvTitle,
-                                 TextView tvSubtitle,
                                  TextView tvError,
                                  ImageView ivIcon) {
         this.mFingerprintManagerCompat = fingerprintManagerCompat;
         this.mCallback = callback;
-        this.tvTitle = tvTitle;
-        this.tvSubtitle = tvSubtitle;
         this.tvError = tvError;
         this.ivIcon = ivIcon;
         this.tvError.post(resetErrorTextRunnable);
     }
 
-    public Boolean getFingerprintAuthAvailable() {
+    public boolean getFingerprintAuthAvailable() {
         return mFingerprintManagerCompat.isHardwareDetected() && mFingerprintManagerCompat.hasEnrolledFingerprints();
     }
 
@@ -119,14 +115,6 @@ public class FingerprintController extends FingerprintManagerCompat.Authenticati
     @Override
     public void onAuthenticationFailed() {
         showError(tvError.getContext().getString(R.string.fingerprint_not_recognized));
-    }
-
-    public void setTitle(CharSequence title) {
-        this.tvTitle.setText(title);
-    }
-
-    public void setSubtitle(CharSequence subtitle) {
-        this.tvSubtitle.setText(subtitle);
     }
 
     interface Callback {
