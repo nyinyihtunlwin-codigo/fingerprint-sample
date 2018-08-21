@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/authsdk-3.10.0-release/authsdk-3.10.0-release.iml" filepath="$PROJECT_DIR$/authsdk-3.10.0-release/authsdk-3.10.0-release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/collection-sdk-3.10.0/collection-sdk-3.10.0.iml" filepath="$PROJECT_DIR$/collection-sdk-3.10.0/collection-sdk-3.10.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/fingerprint-sample.iml" filepath="$PROJECT_DIR$/fingerprint-sample.iml" />
     </modules>
   </component>

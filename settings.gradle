@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':authsdk-3.10.0-release', ':collection-sdk-3.10.0'

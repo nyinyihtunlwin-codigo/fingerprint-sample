@@ -216,7 +216,7 @@ public class FingerprintDialog extends DialogFragment implements FingerprintCont
 
     @Override
     public void onError() {
-
+        dismiss();
     }
 
     interface FDCallback {
